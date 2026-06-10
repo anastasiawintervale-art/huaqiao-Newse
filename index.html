@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="full-screen" content="yes">
+    <title>心动时刻 - 私密约会平台</title>
+    <!-- Facebook Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1234567890123456');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1234567890123456&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Facebook Pixel Code -->
+    <style>
+        /* ========== 基础重置与兼容性 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 
+                -apple-system, 
+                BlinkMacSystemFont, 
+                "Segoe UI", 
+                "PingFang SC", 
+                "Hiragino Sans GB", 
+                "Microsoft YaHei", 
+                "Helvetica Neue", 
+                Helvetica, 
+                Arial, 
+                sans-serif,
+                "Apple Color Emoji",
+                "Segoe UI Emoji";
+            
+            background: linear-gradient(135deg, #efc3de 0%, #c6eef3 100%);
+            background-attachment: fixed; /* iOS Safari 兼容 */
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+            padding-bottom: 40px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .image-option img{
+            width: 100%;
+        }
+
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            button, .option-btn, .image-option, .confirm-btn, .cta-button {
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(255,107,157,0.2);
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+        }
+
+        /* ========== 顶部标题 - 全新设计 ========== */
+        .header {
+            text-align: center;
+            padding: 10px 20px 20px;
+            animation: fadeInDown 0.8s ease-out;
+            -webkit-animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @-webkit-keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-container {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px); /* Safari/iOS 支持 */
+            border-radius: 25px;
+            padding: 30px 50px;
+            box-shadow: 
+                0 10px 45px rgba(239,107,157,0.35),
+                0 2px 15px rgba(198,238,243,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            border: 2px solid rgba(255,255,255,0.6);
+            position: relative;
+            overflow: hidden;
+            max-width: 95vw; /* 防止溢出 */
+        }
+
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: -webkit-linear-gradient(
+                left,
+                transparent,
+                rgba(255,255,255,0.4),
+                transparent
+            );
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.4),
+                transparent
+            );
+            animation: shimmer 3s infinite;
+            -webkit-animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+        
+        @-webkit-keyframes shimmer {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        /* 心电图 SVG - 跨平台兼容 */
+        .heartbeat-svg {
+            width: 90px;
+            height: 55px;
+            display: block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            -webkit-animation: heartbeat 1.5s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        .heartbeat-path {
+            fill: none;
+            stroke: url(index.html);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 2px 8px rgba(239,107,157,0.5));
+            -webkit-filter: drop-shadow(0 2px 8px rgba(239,107,157,0.5));
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            10% { transform: scale(1.08); opacity: 1; }
+            20% { transform: scale(1); opacity: 1; }
+            30% { transform: scale(1.05); opacity: 1; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        @-webkit-keyframes heartbeat {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            10% { transform: scale(1.08); opacity: 1; }
+            20% { transform: scale(1); opacity: 1; }
+            30% { transform: scale(1.05); opacity: 1; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 标题文字 */
+        .logo-text {
+            font-size: 48px;
+            font-weight: bold;
+            background: -webkit-linear-gradient(left, #ff6b9d 0%, #c44569 30%, #ff6b9d 70%, #c44569 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 30%, #ff6b9d 70%, #c44569 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 8px;
+            white-space: nowrap;
+            filter: drop-shadow(0 3px 8px rgba(196,69,105,0.3));
+            -webkit-filter: drop-shadow(0 3px 8px rgba(196,69,105,0.3));
+            animation: textShine 3s linear infinite;
+            -webkit-animation: textShine 3s linear infinite;
+        }
+
+        @keyframes textShine {
+            to { background-position: 200% center; }
+        }
+        
+        @-webkit-keyframes textShine {
+            to { background-position: 200% center; }
+        }
+
+        /* 右侧心电图 */
+        .heartbeat-svg-right {
+            width: 90px;
+            height: 55px;
+            display: block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            -webkit-animation: heartbeat 1.5s ease-in-out infinite;
+            animation-delay: 0.2s;
+            -webkit-animation-delay: 0.2s;
+            flex-shrink: 0;
+        }
+
+        /* 装饰性波纹 */
+        .ripple-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ripple {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,107,157,0.15) 0%, transparent 70%);
+            background: -webkit-radial-gradient(circle, rgba(255,107,157,0.15) 0%, transparent 70%);
+            animation: rippleEffect 3s ease-out infinite;
+            -webkit-animation: rippleEffect 3s ease-out infinite;
+        }
+
+        .ripple:nth-child(2) {
+            animation-delay: 1s;
+            -webkit-animation-delay: 1s;
+        }
+
+        .ripple:nth-child(3) {
+            animation-delay: 2s;
+            -webkit-animation-delay: 2s;
+        }
+
+        @keyframes rippleEffect {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        
+        @-webkit-keyframes rippleEffect {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* ========== 响应式断点 - 标题区域 ========== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 15px 20px;
+            }
+            
+            .logo-container {
+                padding: 25px 35px;
+                gap: 12px;
+            }
+
+            .logo-text {
+                font-size: 36px;
+                letter-spacing: 5px;
+            }
+
+            .heartbeat-svg,
+            .heartbeat-svg-right {
+                width: 65px;
+                height: 42px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 10px 12px 20px;
+            }
+            
+            .logo-container {
+                padding: 22px 26px;
+                gap: 8px;
+                border-radius: 20px;
+            }
+
+            .logo-text {
+                font-size: 28px;
+                letter-spacing: 3px;
+            }
+
+            .heartbeat-svg,
+            .heartbeat-svg-right {
+                width: 50px;
+                height: 32px;
+            }
+        }
+
+        /* 极小屏幕保护 */
+        @media (max-width: 320px) {
+            .logo-text {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+
+            .heartbeat-svg,
+            .heartbeat-svg-right {
+                width: 40px;
+                height: 26px;
+            }
+        }
+
+        /* ========== 进度条 ========== */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 3px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: -webkit-linear-gradient(left, #ff6b9d, #c44569);
+            background: linear-gradient(90deg, #ff6b9d, #c44569);
+            transition: width 0.5s ease;
+            -webkit-transition: width 0.5s ease;
+            border-radius: 3px;
+            box-shadow: 0 2px 8px rgba(196,69,105,0.4);
+        }
+
+        /* ========== 问题卡片 ========== */
+        .question-card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 42px 38px;
+            margin-bottom: 28px;
+            border: 2px solid rgba(255,255,255,0.6);
+            box-shadow: 0 10px 40px rgba(239,195,222,0.35);
+            animation: fadeInUp 0.6s ease-out;
+            -webkit-animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @-webkit-keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-number {
+            display: inline-block;
+            background: -webkit-linear-gradient(top, #ff6b9d, #c44569);
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            padding: 11px 22px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 15px rgba(196,69,105,0.3);
+        }
+
+        .question-text {
+            font-size: 21px;
+            line-height: 1.7;
+            margin-bottom: 34px;
+            font-weight: 600;
+            color: #444;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .options {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            gap: 18px;
+            -webkit-box-pack: center;
+            justify-content: center;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            padding: 17px 48px;
+            font-size: 18px;
+            border: 2px solid rgba(196,69,105,0.3);
+            background: rgba(255,255,255,0.95);
+            color: #c44569;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
+            min-width: 165px;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(239,195,222,0.35);
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .option-btn:hover,
+        .option-btn:focus {
+            background: -webkit-linear-gradient(top, #ff6b9d, #c44569);
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+            -webkit-transform: translateY(-3px);
+            box-shadow: 0 8px 26px rgba(196,69,105,0.45);
+        }
+
+        .option-btn.selected {
+            background: -webkit-linear-gradient(top, #ff6b9d, #c44569);
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            border-color: transparent;
+            transform: scale(1.05);
+            -webkit-transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(196,69,105,0.55);
+        }
+
+        /* ========== 选择环节 ========== */
+        .selection-card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 42px 38px;
+            margin-bottom: 28px;
+            border: 2px solid rgba(255,255,255,0.6);
+            box-shadow: 0 10px 40px rgba(239,195,222,0.35);
+            animation: fadeInUp 0.6s ease-out;
+            -webkit-animation: fadeInUp 0.6s ease-out;
+        }
+
+        .selection-title {
+            font-size: 23px;
+            text-align: center;
+            margin-bottom: 34px;
+            font-weight: bold;
+            color: #c44569;
+            text-shadow: 0 2px 4px rgba(196,69,105,0.1);
+            word-wrap: break-word;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 17px;
+            margin-bottom: 30px;
+        }
+
+        /* IE/旧版Safari Grid降级 */
+        @supports not (display: grid) {
+            .image-grid {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-flex-wrap: wrap;
+                flex-wrap: wrap;
+            }
+            .image-option {
+                width: calc(50% - 10px);
+                margin-bottom: 14px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 13px;
+            }
+        }
+
+        .image-option {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            -webkit-aspect-ratio: 1 / 1;
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
+            background: -webkit-linear-gradient(135deg, #f8a5c2 0%, #a8edea 100%);
+            background: linear-gradient(135deg, #f8a5c2 0%, #a8edea 100%);
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            font-size: 54px;
+            box-shadow: 0 6px 22px rgba(239,195,222,0.4);
+            outline: none;
+            -webkit-tap-highlight-color: rgba(196,69,105,0.2);
+        }
+
+        /* aspect-ratio 降级方案 */
+        @supports not (aspect-ratio: 1 / 1) {
+            .image-option {
+                height: 0;
+                padding-bottom: 100%;
+            }
+            .image-option > * {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                -webkit-transform: translate(-50%, -50%);
+            }
+        }
+
+        .image-option:hover,
+        .image-option:focus {
+            transform: scale(1.04) translateY(-4px);
+            -webkit-transform: scale(1.04) translateY(-4px);
+            box-shadow: 0 13px 35px rgba(196,69,105,0.38);
+        }
+
+        .image-option.selected {
+            border-color: #c44569;
+            box-shadow: 0 0 0 3px rgba(196,69,105,0.2), 0 13px 38px rgba(196,69,105,0.44);
+            transform: scale(1.03);
+            -webkit-transform: scale(1.03);
+        }
+
+        .image-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: -webkit-linear-gradient(top, #ff6b9d, #c44569);
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            width: 33px;
+            height: 33px;
+            border-radius: 50%;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            font-size: 19px;
+            font-weight: bold;
+            box-shadow: 0 3px 11px rgba(196,69,105,0.45);
+            animation: popIn 0.3s ease-out;
+            -webkit-animation: popIn 0.3s ease-out;
+            z-index: 10;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        @-webkit-keyframes popIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.2); }
+            100% { transform(1); }
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            /*background: -webkit-linear-gradient(top, rgba(196,69,105,0.92), rgba(196,69,105,0.72));*/
+            /*background: linear-gradient(to top, rgba(196,69,105,0.92), rgba(196,69,105,0.72));*/
+            padding: 11px 8px;
+            font-size: 14px;
+            color: white;
+            font-weight: 500;
+            /*backdrop-filter: blur(5px);*/
+            /*-webkit-backdrop-filter: blur(5px);*/
+            z-index: 5;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 20px;
+            font-size: 19px;
+            background: -webkit-linear-gradient(top, #ff6b9d, #c44569);
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
+            box-shadow: 0 6px 26px rgba(196,69,105,0.47);
+            letter-spacing: 1px;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .confirm-btn:hover,
+        .confirm-btn:focus {
+            transform: translateY(-3px);
+            -webkit-transform: translateY(-3px);
+            box-shadow: 0 10px 37px rgba(196,69,105,0.58);
+        }
+
+        .confirm-btn:active {
+            transform: translateY(-1px);
+            -webkit-transform: translateY(-1px);
+        }
+
+        /* ========== 加载动画 ========== */
+        .loading-container {
+            text-align: center;
+            padding: 85px 20px;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(239,195,222,0.35);
+            animation: fadeInUp 0.6s ease-out;
+            -webkit-animation: fadeInUp 0.6s ease-out;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            width: 72px;
+            height: 72px;
+            border: 5px solid rgba(196,69,105,0.16);
+            border-top-color: #c44569;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            -webkit-animation: spin 1s linear infinite;
+            margin: 0 auto 27px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @-webkit-keyframes spin {
+            to { -webkit-transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 19px;
+            color: #c44569;
+            font-weight: 500;
+        }
+
+        /* ========== 成功页面 ========== */
+        .success-card {
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 38px 38px;
+            border: 2px solid rgba(255,255,255,0.6);
+            box-shadow: 0 10px 52px rgba(239,195,222,0.42);
+            animation: fadeInUp 0.6s ease-out;
+            -webkit-animation: fadeInUp 0.6s ease-out;
+            /*margin-top: 20px;*/
+        }
+
+        .success-icon {
+            font-size: 56px;
+            text-align: center;
+            margin-bottom: 8px;
+            animation: bounce 2s infinite;
+            -webkit-animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.16); }
+        }
+        
+        @-webkit-keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.16); }
+        }
+
+        .success-title {
+            font-size: 29px;
+            text-align: center;
+            margin-bottom: 6px;
+            background: -webkit-linear-gradient(top, #ff6b9d, #c44569, #ffd700);
+            background: linear-gradient(135deg, #ff6b9d, #c44569, #ffd700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            letter-spacing: 1px;
+            word-wrap: break-word;
+        }
+
+        .success-subtitle {
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 8px;
+            color: #c44569;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .success-subtitle strong {
+            font-size: 16px;
+            color: #ff6b9d;
+            text-shadow: 0 2px 9px rgba(255,107,157,0.32);
+        }
+
+        .warning-box {
+            background: -webkit-linear-gradient(135deg, rgba(255,215,0,0.16), rgba(255,165,0,0.16));
+            background: linear-gradient(135deg, rgba(255,215,0,0.16), rgba(255,165,0,0.16));
+            border-left: 5px solid #ffa500;
+            padding: 4px 6px;
+            margin-bottom: 10px;
+            border-radius: 13px;
+            font-size: 12px;
+            line-height: 1.75;
+            color: #cc7000;
+            font-weight: 500;
+            box-shadow: 0 4px 16px rgba(255,165,0,0.22);
+        }
+
+        .cta-hint {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 17px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .rules-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .rules-list li {
+            padding: 4px 8px;
+            margin-bottom: 6px;
+            background: -webkit-linear-gradient(135deg, rgba(255,240,245,0.92), rgba(240,248,255,0.92));
+            background: linear-gradient(135deg, rgba(255,240,245,0.92), rgba(240,248,255,0.92));
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.73;
+            border-left: 4px solid #ff6b9d;
+            color: #444;
+            box-shadow: 0 3px 13px rgba(239,195,222,0.27);
+            word-wrap: break-word;
+        }
+
+        .rules-list li strong {
+            color: #c44569;
+            font-size: 15px;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 25px;
+            font-size: 21px;
+            background: -webkit-linear-gradient(top, #ff6b9d, #c44569, #ff6b9d);
+            background: linear-gradient(135deg, #ff6b9d, #c44569, #ff6b9d);
+            background-size: 200% 200%;
+            color: white;
+            border: none;
+            border-radius: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 34px;
+            transition: all 0.3s ease;
+            -webkit-transition: all 0.3s ease;
+            box-shadow: 0 8px 34px rgba(196,69,105,0.52);
+            animation: gradientShift 3s ease infinite, glow 2s ease-in-out infinite;
+            -webkit-animation: gradientShift 3s ease infinite, glow 2s ease-in-out infinite;
+            letter-spacing: 2px;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @-webkit-keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 8px 34px rgba(196,69,105,0.52); }
+            50% { box-shadow: 0 8px 50px rgba(196,69,105,0.78); }
+        }
+        
+        @-webkit-keyframes glow {
+            0%, 100% { box-shadow: 0 8px 34px rgba(196,69,105,0.52); }
+            50% { box-shadow: 0 8px 50px rgba(196,69,105,0.78); }
+        }
+
+        .cta-button:hover,
+        .cta-button:focus {
+            transform: translateY(-4px) scale(1.02);
+            -webkit-transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 13px 48px rgba(196,69,105,0.67);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ========== 响应式 - 移动端优化 ========== */
+        @media (max-width: 600px) {
+            .container {
+                padding: 14px;
+            }
+            
+            .question-card,
+            .selection-card,
+            .success-card,
+            .loading-container {
+                padding: 12px 12px;
+                border-radius: 20px;
+            }
+            
+            .question-text {
+                font-size: 18px;
+            }
+            
+            .option-btn {
+                padding: 14px 34px;
+                font-size: 16px;
+                min-width: 134px;
+            }
+            
+            .selection-title {
+                font-size: 19px;
+            }
+
+            .success-title {
+                font-size: 18px;
+            }
+
+            .success-subtitle {
+                font-size: 13px;
+            }
+
+            .success-subtitle strong {
+                font-size: 20px;
+            }
+
+            .cta-button {
+                font-size: 18px;
+                padding: 21px;
+            }
+
+            .progress-bar {
+                margin-bottom: 10px;
+            }
+
+            .image-option {
+                font-size: 46px;
+            }
+        }
+
+        /* ========== 打印样式隐藏 ========== */
+        @media print {
+            body {
+                background: white !important;
+            }
+            .hidden {
+                display: none !important;
+            }
+        }
+
+        /* ========== 高对比度模式支持 ========== */
+        @media (prefers-contrast: high) {
+            .option-btn,
+            .confirm-btn,
+            .cta-button {
+                border: 2px solid currentColor;
+            }
+        }
+
+        /* ========== 减少动画模式（无障碍） ========== */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ========== 横屏模式提示（移动端） ========== */
+        @media (max-width: 767px) and (orientation: landscape) {
+            .container {
+                padding: 10px;
+                max-width: 100%;
+            }
+            
+            .header {
+                padding: 10px 15px 20px;
+            }
+            
+            .logo-container {
+                padding: 20px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部标题 -->
+        <div class="header">
+            <div class="logo-container">
+                <!-- 左侧心电图 -->
+                <svg class="heartbeat-svg" viewBox="0 0 120 70" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#c44569;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ff6b9d;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path class="heartbeat-path" d="
+                        M 5 35
+                        L 15 35
+                        L 22 35
+                        L 28 15
+                        L 35 55
+                        L 43 25
+                        L 49 42
+                        L 56 35
+                        L 68 35
+                        L 74 35
+                    "/>
+                </svg>
+
+                <!-- 中间标题 -->
+                <div class="logo-text" role="heading" aria-level="1">心动时刻</div>
+
+                <!-- 右侧心电图 -->
+                <svg class="heartbeat-svg-right" viewBox="0 0 120 70" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path class="heartbeat-path" d="
+                        M 52 35
+                        L 64 35
+                        L 71 35
+                        L 77 15
+                        L 84 55
+                        L 92 25
+                        L 98 42
+                        L 105 35
+                        L 115 35
+                    "/>
+                </svg>
+
+                <!-- 装饰性波纹 -->
+                <div class="ripple-container" aria-hidden="true">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 进度条 -->
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+
+        <!-- 问题1 -->
+        <div id="q1" class="question-card" role="region" aria-labelledby="q1-title">
+            <span class="question-number">问题 1/3</span>
+            <p class="question-text" id="q1-title">温馨提醒：你即将看到当地寻找约会或兼职的美女,您能否保密不泄露女孩隐私?约会之前,我们需要问几个简短问题?？</p>
+            <div class="options" role="group" aria-label="选项">
+                <button class="option-btn" type="button" onclick="selectAnswer(1, '好的')" aria-label="选择好的">好的</button>
+                <button class="option-btn" type="button" onclick="selectAnswer(1, '拒绝')" aria-label="选择拒绝">拒绝</button>
+            </div>
+        </div>
+
+        <!-- 问题2 -->
+        <div id="q2" class="question-card hidden" role="region" aria-labelledby="q2-title">
+            <span class="question-number">问题 2/3</span>
+            <p class="question-text" id="q2-title">是否已满25岁？您是否有约炮需求？？</p>
+            <div class="options" role="group" aria-label="选项">
+                <button class="option-btn" type="button" onclick="selectAnswer(2, '同意')" aria-label="选择同意">同意</button>
+                <button class="option-btn" type="button" onclick="selectAnswer(2, '拒绝')" aria-label="选择拒绝">拒绝</button>
+            </div>
+        </div>
+
+        <!-- 问题3 -->
+        <div id="q3" class="question-card hidden" role="region" aria-labelledby="q3-title">
+            <span class="question-number">问题 3/3</span>
+            <p class="question-text" id="q3-title">这个网站只用于约炮，不能进入生活，你能接受吗？</p>
+            <div class="options" role="group" aria-label="选项">
+                <button class="option-btn" type="button" onclick="selectAnswer(3, '同意')" aria-label="选择同意">同意</button>
+                <button class="option-btn" type="button" onclick="selectAnswer(3, '拒绝')" aria-label="选择拒绝">拒绝</button>
+            </div>
+        </div>
+
+
+        <!-- 挑选1：胸部 -->
+        <div id="s1" class="selection-card hidden" role="region" aria-labelledby="s1-title">
+            <h2 class="selection-title" id="s1-title">🎯 什么样的胸部能让你兴奋？</h2>
+            <div class="image-grid" role="listbox" aria-label="胸部类型选项" aria-multiselectable="true">
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,1)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="娇小可爱">
+                    <img src="x11.js">
+                    <span class="image-label">01</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,1)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="丰满性感">
+                    <img src="x22.js">
+                    <span class="image-label">02</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,1)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="完美曲线">
+                    <img src="x33.js">
+                    <span class="image-label">03</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,1)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="火辣诱人">
+                    <img src="x44.js">
+                    <span class="image-label">04</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 挑选2：年龄 -->
+        <div id="s2" class="selection-card hidden" role="region" aria-labelledby="s2-title">
+            <h2 class="selection-title" id="s2-title">🎯 什么样的年龄最适合你？</h2>
+            <div class="image-grid" role="listbox" aria-label="年龄段选项" aria-multiselectable="true">
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,2)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="18到24岁青春活力">
+                    <img src="18.js">
+                    <span class="image-label">18-20岁</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,2)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="25到30岁成熟魅力">
+                    <img src="20.js">
+                    <span class="image-label">20-30岁</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,2)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="31到40岁风韵犹存">
+                    <img src="30.js">
+                    <span class="image-label">30-40岁</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,2)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="40岁以上熟女风情">
+                    <img src="40.js">
+                    <span class="image-label">40岁+</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 挑选3：臀部 -->
+        <div id="s3" class="selection-card hidden" role="region" aria-labelledby="s3-title">
+            <h2 class="selection-title" id="s3-title">🎯 喜欢什么样的臀部？</h2>
+            <div class="image-grid" role="listbox" aria-label="臀部类型选项" aria-multiselectable="true">
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,3)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="圆润饱满">
+                    <img src="t11.js">
+                    <span class="image-label">圆润饱满</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,3)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="紧致翘挺">
+                    <img src="t22.js">
+                    <span class="image-label">紧致翘挺</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,3)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="匀称标准">
+                    <img src="t33.js">
+                    <span class="image-label">匀称标准</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,3)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="性感迷人">
+                    <img src="t44.js">
+                    <span class="image-label">性感迷人</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 挑选4：姿势 -->
+        <div id="s4" class="selection-card hidden" role="region" aria-labelledby="s4-title">
+            <h2 class="selection-title" id="s4-title">🎯 什么样的姿势能让你兴奋？</h2>
+            <div class="image-grid" role="listbox" aria-label="姿势偏好选项" aria-multiselectable="true">
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,4)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="温柔浪漫">
+                    <img src="z1.gif.js">
+                    <span class="image-label">01</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,4)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="激情狂野">
+                    <img src="z2.gif.js">
+                    <span class="image-label">02</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,4)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="挑逗诱惑">
+                    <img src="z3.gif.js">
+                    <span class="image-label">03</span>
+                </div>
+                <div class="image-option" data-selected="false" onclick="toggleSelect(this,4)" onkeydown="handleOptionKeydown(event, this)" tabindex="0" role="option" aria-selected="false" aria-label="创意新奇">
+                    <img src="z4.gif.js">
+                    <span class="image-label">04</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 加载页面 -->
+        <div id="loading" class="loading-container hidden" role="status" aria-live="polite">
+            <div class="spinner" aria-hidden="true"></div>
+            <p class="loading-text">正在匹配附近符合条件的女性...</p>
+        </div>
+
+        <!-- 成功页面 -->
+        <div id="success" class="success-card hidden" role="main" aria-labelledby="success-title">
+            <div class="success-icon" aria-hidden="true">🎉</div>
+            <h1 class="success-title" id="success-title">恭喜您已获得访问权限！</h1>
+            <p class="success-subtitle">您所在地区有 <strong>75位</strong> 性感女性正在等着与您见面！</p>
+            
+            <div class="warning-box" role="alert">
+                ⚠️ 您即将获得附近性感女孩的联系方式，请备好避孕套，您将使用它们。
+            </div>
+            
+            <button class="cta-button" type="button" id="yuehuibtn">
+                🚀 立即约会
+            </button>
+
+            <p class="cta-hint">点击下方按钮完成注册并开始约会过程</p>
+
+            <ul class="rules-list">
+                <li>
+                    <strong>重要提醒：</strong>记住，这些女人是想要性爱，所以只要发信息要求做爱，不可以打扰女孩子日常生活。即使您只想约，也不要表露自己感情，不要传播谣言，<strong>尊重女孩的隐私！</strong>
+                    <br/>
+                    <strong>沟通建议：</strong>本网站上的女性可能您要一夜情，也可能想要一个固定的伴侣，在与她们发生性爱之前，先问问她们愿意什么。
+                    <br/>
+                    <strong>升级特权：</strong>如果您尝试升级，您将获得更多浏览量和真实信息，从而获得更多女性选择。您的照片将在我们的网站上显示得更多，当地女孩会向您发送更多消息要求约会，让她早日遇到心动女孩！
+                </li>
+                
+            </ul>
+
+            
+        </div>
+    </div>
+
+    <script>
+        // ========== JavaScript - 跨平台兼容 ==========
+        (function() {
+            'use strict';
+
+            // 变量初始化
+            var currentStep = 1;
+            var totalSteps = 9;
+
+            // DOM 元素缓存
+            var progressFill = document.getElementById('progressFill');
+
+            // 工具函数：更新进度条
+            function updateProgress() {
+                if (!progressFill) return;
+                
+                var progress = ((currentStep - 1) / totalSteps) * 100;
+                progressFill.style.width = Math.max(0, Math.min(100, progress)) + '%';
+                
+                // 更新 ARIA 属性
+                var progressBar = progressFill.parentElement;
+                if (progressBar && progressBar.setAttribute) {
+                    progressBar.setAttribute('aria-valuenow', Math.round(progress));
+                }
+            }
+
+            // 选择答案
+            window.selectAnswer = function(questionNum, answer) {
+                try {
+                    var card = document.getElementById('q' + questionNum);
+                    if (!card) return;
+
+                    var buttons = card.querySelectorAll('.option-btn');
+                    
+                    // 移除所有选中状态
+                    for (var i = 0; i < buttons.length; i++) {
+                        buttons[i].classList.remove('selected');
+                    }
+
+                    // 添加当前选中状态
+                    if (event && event.target) {
+                        event.target.classList.add('selected');
+                    }
+
+                    // 延迟切换到下一题
+                    setTimeout(function() {
+                        if (questionNum < 3) {
+                            document.getElementById('q' + questionNum).classList.add('hidden');
+                            var nextCard = document.getElementById('q' + (questionNum + 1));
+                            if (nextCard) {
+                                nextCard.classList.remove('hidden');
+                            }
+                            currentStep++;
+                            updateProgress();
+                            
+                            // 聚焦到下一个问题的第一个按钮
+                            var nextButtons = nextCard ? nextCard.querySelectorAll('.option-btn') : [];
+                            if (nextButtons.length > 0) {
+                                setTimeout(function() {
+                                    nextButtons[0].focus();
+                                }, 100);
+                            }
+                        } else {
+                            // 进入挑选环节
+                            document.getElementById('q3').classList.add('hidden');
+                            var selection1 = document.getElementById('s1');
+                            if (selection1) {
+                                selection1.classList.remove('hidden');
+                            }
+                            currentStep++;
+                            updateProgress();
+                        }
+                    }, 400);
+
+                } catch (e) {
+                    console.error('选择答案时出错:', e);
+                }
+            };
+
+            // 切换图片选择
+            window.toggleSelect = function(element,_index) {
+                if (!element) return;
+
+                try {
+                    var isSelected = element.getAttribute('data-selected') === 'true';
+                    element.setAttribute('data-selected', String(!isSelected));
+                    element.classList.toggle('selected');
+                    
+                    // 更新 ARIA 状态
+                    element.setAttribute('aria-selected', String(!isSelected));
+
+                    // 触摸反馈（移动端）
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(30);
+                    }
+                    if(!isSelected){
+                        if(_index<4){
+                            nextSelection(_index);
+                        }else{
+                            showLoading()
+                        }
+                    }
+
+                } catch (e) {
+                    console.error('切换选择时出错:', e);
+                }
+            };
+
+            // 键盘导航支持（无障碍）
+            window.handleOptionKeydown = function(event, element) {
+                if (!event || !element) return;
+
+                switch (event.key || event.keyCode) {
+                    case 'Enter':
+                    case ' ': // Space
+                        event.preventDefault();
+                        toggleSelect(element);
+                        break;
+                    case 13: // Enter (keyCode)
+                        event.preventDefault();
+                        toggleSelect(element);
+                        break;
+                }
+            };
+
+            // 下一个选择环节
+            window.nextSelection = function(selectionNum) {
+                try {
+                    var currentCard = document.getElementById('s' + selectionNum);
+                    if (!currentCard) return;
+
+                    var selectedItems = currentCard.querySelectorAll('.image-option.selected');
+                    
+                    if (selectedItems.length === 0) {
+                        alert('请至少选择一个选项！');
+                        return;
+                    }
+
+                    setTimeout(function() {
+                        currentCard.classList.add('hidden');
+                        
+                        if (selectionNum < 4) {
+                            var nextSelection = document.getElementById('s' + (selectionNum + 1));
+                            if (nextSelection) {
+                                nextSelection.classList.remove('hidden');
+                            }
+                            currentStep++;
+                            updateProgress();
+                        } else {
+                            showLoading();
+                        }
+                    }, 300);
+
+                } catch (e) {
+                    console.error('进入下一选择时出错:', e);
+                }
+            };
+
+            // 显示加载状态
+            window.showLoading = function() {
+                try {
+                    var s4 = document.getElementById('s4');
+                    var loading = document.getElementById('loading');
+                    
+                    if (s4) s4.classList.add('hidden');
+                    if (loading) loading.classList.remove('hidden');
+                    
+                    currentStep++;
+                    updateProgress();
+
+                    // 模拟加载过程
+                    setTimeout(function() {
+                        if (loading) loading.classList.add('hidden');
+                        
+                        var success = document.getElementById('success');
+                        if (success) success.classList.remove('hidden');
+                        
+                        if (progressFill) {
+                            progressFill.style.width = '100%';
+                        }
+                        
+                        // 更新 ARIA
+                        var progressBar = progressFill ? progressFill.parentElement : null;
+                        if (progressBar && progressBar.setAttribute) {
+                            progressBar.setAttribute('aria-valuenow', 100);
+                        }
+                    }, 2500);
+
+                } catch (e) {
+                    console.error('显示加载状态时出错:', e);
+                }
+            };
+
+            // 初始化
+            updateProgress();
+
+            // 页面可见性变化处理（节省资源）
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    // 页面隐藏时可暂停动画等
+                    document.body.style.animationPlayState = 'paused';
+                } else {
+                    // 页面显示时恢复
+                    document.body.style.animationPlayState = 'running';
+                }
+            });
+
+            // 防止双击缩放（移动端）
+            var lastTouchEnd = 0;
+            document.addEventListener('touchend', function(event) {
+                var now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+
+        })();
+    </script>
+    <script type="text/javascript" charset="UTF-8" src="https://res.opstatistics.com/openinstall-xx7hwq.js"></script>
+	<script>
+		(function() {
+			// 渠道码
+			var urlParams = new URLSearchParams(window.location.search);
+			var _channelCode = urlParams.get('channelCode') || urlParams.get('channelcode') || 'BX25';
+
+			if (typeof OpenInstall === 'function') {
+				var data = OpenInstall.parseUrlParams();
+				if (_channelCode) { data.channelCode = _channelCode; }
+
+				new OpenInstall({
+					appKey: 'xx7hwq',
+					timeout: 3000,
+					onready: function() {
+						var m = this;
+						m.schemeWakeup();
+
+						var btn = document.getElementById('yuehuibtn');
+						if (btn) {
+							btn.onclick = function() {
+								if (typeof fbq === 'function') {
+									fbq('track', 'Lead');
+									fbq('track', 'CompleteRegistration');
+								}
+								m.wakeupOrInstall();
+								return false;
+							};
+						}
+					}
+				}, data);
+			} else {
+				console.warn('OpenInstall is not available');
+			}
+
+			
+		})();
+	</script>
+	
+
+    
+</body>
+</html>
